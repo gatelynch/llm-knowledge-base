@@ -143,7 +143,7 @@ NotebookLM 出現之後，我又以為答案會是「不要整理，全部交給
 
 ## 致謝
 
-架構靈感來自 [Andrej Karpathy 的 LLM 知識庫概念](https://x.com/karpathy/status/2039805659525644595)。原始實作與編譯工作流程由 [@gatelynch](https://github.com/gatelynch) 完成。
+架構靈感來自 [Andrej Karpathy 的 LLM 知識庫概念](https://x.com/karpathy/status/2039805659525644595)。原始實作與編譯工作流程由 [@gatelynch](https://github.com/gatelynch)與 [@claude](https://github.com/claude) 完成。
 
 ## 授權
 
