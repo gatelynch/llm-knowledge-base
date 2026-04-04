@@ -1,18 +1,18 @@
-# Customization Guide
+# 自訂指南
 
-## Language
+## 語言
 
-The system defaults to English for structure (folder names, section headers) but you can change the output language.
+系統預設以英文作為結構語言（資料夾名稱、段落標題），但你可以調整輸出語言。
 
-### Step 1: Set your language in CLAUDE.md
+### 步驟 1：在 `CLAUDE.md` 設定你的語言
 
 ```yaml
 - **Language**: 繁體中文
 ```
 
-### Step 2: Customize section headers
+### 步驟 2：自訂段落標題
 
-In `CLAUDE.md`, change the section headers in the compilation specs. For example, for Traditional Chinese:
+在 `CLAUDE.md` 中，修改編譯規格裡的段落標題。例如，繁體中文可以這樣設定：
 
 | English (default) | 繁體中文 | 日本語 |
 |-------------------|---------|--------|
@@ -26,15 +26,15 @@ In `CLAUDE.md`, change the section headers in the compilation specs. For example
 | External Perspectives | 外部觀點 | 外部の視点 |
 | Tensions & Gaps | 張力與缺口 | 緊張と課題 |
 
-The `/compile` and `/health-check` commands follow whatever section headers you define in CLAUDE.md.
+`/compile` 和 `/health-check` 會遵循你在 `CLAUDE.md` 中定義的段落標題。
 
-## Domain
+## 領域
 
-### Adding artifact subfolders
+### 新增 `artifacts/` 子資料夾
 
-The template ships with just `artifacts/projects/`. Add subfolders that match your domain:
+範本預設只提供 `artifacts/projects/`。你可以依照自己的領域新增子資料夾：
 
-**For a teacher:**
+**如果你是老師：**
 ```
 artifacts/
 ├── lessons/
@@ -43,7 +43,7 @@ artifacts/
 └── projects/
 ```
 
-**For a researcher:**
+**如果你是研究者：**
 ```
 artifacts/
 ├── papers/
@@ -52,7 +52,7 @@ artifacts/
 └── projects/
 ```
 
-**For a developer:**
+**如果你是開發者：**
 ```
 artifacts/
 ├── blog-posts/
@@ -61,18 +61,18 @@ artifacts/
 └── projects/
 ```
 
-### Adding raw/ subfolders
+### 新增 `raw/` 子資料夾
 
-You can add more subfolders to raw/ for your specific input sources. Just update the origin mapping in the `/compile` command to tell the LLM whether new subfolders are `origin: external` or `origin: self`.
+你也可以為特定輸入來源，在 `raw/` 下新增更多子資料夾。只要同步更新 `/compile` 指令中的 origin 對應，告訴 LLM 這些新資料夾屬於 `origin: external` 還是 `origin: self` 即可。
 
-## Tags
+## 標籤
 
-Tags should match your vault's language. Use proper nouns in their original form (e.g., "Claude Code", "Obsidian") and translate general concepts to your chosen language.
+標籤應該和你的 vault 語言一致。專有名詞保留原文（例如 `Claude Code`、`Obsidian`），一般概念則翻成你選擇的語言。
 
-## Writing Style
+## 寫作風格
 
-If you have a specific writing style for your domain, add a `## Writing Style` section to CLAUDE.md. This will influence how the LLM writes summaries and concept entries.
+如果你的領域有特定的寫作風格，可以在 `CLAUDE.md` 加上一個 `## Writing Style` 區段。這會影響 LLM 撰寫摘要與概念條目的方式。
 
-## Additional Commands
+## 額外指令
 
-The three included commands (/compile, /health-check, /thinking-partner) cover the core workflow. You can add more commands to `.claude/commands/` for your specific needs. See the [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-slash-commands) for how to create custom commands.
+目前內建的三個指令（`/compile`、`/health-check`、`/thinking-partner`）涵蓋了核心工作流程。你也可以依照自己的需求，在 `.claude/commands/` 裡加入更多指令。如何建立自訂指令，請參考 [Claude Code 文件](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-slash-commands)。

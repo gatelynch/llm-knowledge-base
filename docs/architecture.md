@@ -1,67 +1,67 @@
-# Architecture: The Four-Layer Knowledge System
+# 架構：四層知識系統
 
-## Why Four Layers?
+## 為什麼是四層？
 
-Most personal knowledge systems have one fatal flaw: **raw materials and processed understanding live in the same place**. You clip an article, maybe highlight a few lines, and it sits next to your own half-formed thoughts. Over time, everything blurs together.
+大多數個人知識系統都有一個致命缺陷：**原始材料與加工後的理解混在同一個地方**。你剪藏一篇文章，也許畫了幾段重點，然後它就和你那些尚未成形的想法並排放在一起。久而久之，一切都糊成一團。
 
-This system enforces a strict separation:
+這個系統強制維持明確分層：
 
 ```
-raw/            → The library         (what you've collected)
-wiki/           → The encyclopedia    (what you've understood)
-brainstorming/  → The lab notebook    (what you're exploring)
-artifacts/      → The publications    (what you've produced)
+raw/            → 圖書館         （你收集了什麼）
+wiki/           → 百科全書       （你理解了什麼）
+brainstorming/  → 實驗筆記本     （你正在探索什麼）
+artifacts/      → 發表成果       （你產出了什麼）
 ```
 
-## Layer 1: raw/ — The Library
+## 第 1 層：`raw/` — 圖書館
 
-**Rule: read-only after capture.** Once a file enters raw/, it never gets edited. This preserves the original source exactly as you found it.
+**規則：收進來之後就是唯讀。** 一旦檔案進入 `raw/`，就不再編輯。這能保留來源最原始的樣子。
 
-Why this matters: When you compile a summary months later, you want the original — not a version you've already rewritten through your current lens. Raw materials are evidence. Don't tamper with evidence.
+為什麼這很重要：幾個月後你回來編譯摘要時，你需要的是原始版本，而不是一份已經被你用當下視角重寫過的版本。原始材料就是證據，不要動證據。
 
-**Subfolders by source type:**
-- `articles/` — Web articles, blog posts, newsletters
-- `books/` — Book notes, highlights, chapter summaries
-- `podcasts/` — Transcripts, episode notes
-- `papers/` — Academic papers, research reports
-- `notes/` — Your quick thoughts, captured ideas (origin: self)
-- `projects/` — Project-related raw material (origin: self)
+**依來源類型分的子資料夾：**
+- `articles/` — 網路文章、部落格文章、電子報
+- `books/` — 書籍筆記、畫線、章節摘要
+- `podcasts/` — 逐字稿、單集筆記
+- `papers/` — 學術論文、研究報告
+- `notes/` — 你的即時想法、隨手記錄的靈感（`origin: self`）
+- `projects/` — 與專案相關的原始材料（`origin: self`）
 
-## Layer 2: wiki/ — The Encyclopedia
+## 第 2 層：`wiki/` — 百科全書
 
-**Rule: maintained by LLM, not edited manually.** This is where compilation happens. The LLM reads raw/ and produces structured knowledge here.
+**規則：由 LLM 維護，不手動編輯。** 這是發生編譯的地方。LLM 讀取 `raw/`，並在這裡產生結構化知識。
 
-Three types of compiled output:
+編譯後會產生三種輸出：
 
-### Summaries (wiki/summaries/)
-One per source. Two formats based on origin:
-- **External**: Core Conclusion → Key Evidence → Open Questions → Key Terms
-- **Self**: My Claims → Practice Experience → Unresolved Questions → Comparison with Research
+### 摘要（`wiki/summaries/`）
+每個來源一份。依照 `origin` 分成兩種格式：
+- **External**：Core Conclusion → Key Evidence → Open Questions → Key Terms
+- **Self**：My Claims → Practice Experience → Unresolved Questions → Comparison with Research
 
-### Concepts (wiki/concepts/)
-Cross-referenced entries that emerge when a term appears in 2+ summaries. Each concept separates **your practice** from **external perspectives**, with a dedicated "Tensions & Gaps" section.
+### 概念（`wiki/concepts/`）
+當某個詞在 2 篇以上摘要中出現時，就會長出一篇交叉引用的概念條目。每個概念都會把**你的實踐**和**外部觀點**分開，並有一個專門的「Tensions & Gaps」區段。
 
-This is the core design decision: your experience and the research exist side by side, and contradictions are surfaced, not buried.
+這是核心設計決策：你的經驗與研究並排存在，矛盾會被浮現出來，而不是被埋掉。
 
-### Indexes (wiki/indexes/)
-Two master tables:
-- **All-Sources.md** — Every compiled source with tags and key takeaway
-- **All-Concepts.md** — Every concept entry with definition and related concepts
+### 索引（`wiki/indexes/`）
+兩份總表：
+- **All-Sources.md** — 所有已編譯來源，附上標籤與關鍵收穫
+- **All-Concepts.md** — 所有概念條目，附上定義與相關概念
 
-## Layer 3: brainstorming/ — The Lab Notebook
+## 第 3 層：`brainstorming/` — 實驗筆記本
 
-**Rule: exploration outputs, not polished work.** This is where you think out loud with the LLM.
+**規則：放探索過程，不放打磨完成的作品。** 這是你和 LLM 一起大聲思考的地方。
 
-- `chat/` — Q&A logs from complex queries (with reasoning, sources, and uncertainties)
-- `health/` — Health check reports that track the quality of your wiki/ over time
+- `chat/` — 複雜問題的問答紀錄（包含推理、來源與不確定性）
+- `health/` — 健康檢查報告，用來追蹤你的 `wiki/` 品質隨時間的變化
 
-## Layer 4: artifacts/ — The Publications
+## 第 4 層：`artifacts/` — 發表成果
 
-**Rule: your finished works.** Articles you've written, teaching materials, project deliverables — anything you've produced that represents your thinking.
+**規則：放你的完成品。** 你寫的文章、教學材料、專案交付物，任何能代表你思考的產出都放在這裡。
 
-These get compiled into wiki/ just like external sources, but with `origin: self` — so your practice experience feeds into concept entries alongside external research.
+這些內容也會像外部來源一樣被編譯進 `wiki/`，但它們的 `origin` 會是 `self`。因此，你的實踐經驗會和外部研究一起進入概念條目。
 
-## The Compilation Flow
+## 編譯流程
 
 ```
 raw/articles/new-paper.md
@@ -74,12 +74,12 @@ wiki/indexes/All-Sources.md    (new row added)
 wiki/indexes/All-Concepts.md   (new row if new concept)
 ```
 
-## Why Origin Matters
+## 為什麼 `origin` 很重要
 
-Every source is tagged as either `origin: external` or `origin: self`. This distinction flows through the entire system:
+每個來源都會被標記為 `origin: external` 或 `origin: self`。這個區分會影響整個系統：
 
-- **Summaries** use different section headers based on origin
-- **Concepts** route content to "My Practice" (self) or "External Perspectives" (external)
-- **Tensions & Gaps** only become meaningful when both origins are present
+- **摘要** 會依照 `origin` 使用不同的段落標題
+- **概念條目** 會把內容分流到「My Practice」（self）或「External Perspectives」（external）
+- **Tensions & Gaps** 只有在兩種來源都存在時才真正有意義
 
-The goal is not to blend everything into a single narrative, but to maintain the productive tension between what you've experienced and what others have found.
+目標不是把所有東西混成單一敘事，而是保留你親身經驗與他人研究之間那種有生產力的張力。
