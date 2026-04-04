@@ -184,7 +184,10 @@ sources: [[[Summary 1]], [[Summary 2]]]
 ## Available Commands
 
 ```
+/init-llm             # Interactive setup for new users
 /compile              # Compile raw/ and artifacts/ into wiki/
 /health-check         # Knowledge base health check
 /thinking-partner     # Collaborative thinking partner
+/write-partner        # Writing exploration before drafting
+/braindump            # Distill conversation into reusable material
 ```

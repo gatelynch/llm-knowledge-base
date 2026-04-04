@@ -1,92 +1,95 @@
 ---
-description: '對話沉澱：把討論過的想法記錄成素材'
-argument-hint: '[檔名主題，例如「重新打造第二大腦」]'
+name: braindump
+description: 'Distill conversation insights into reusable material'
+argument-hint: '[topic name, e.g., "rebuilding a second brain"]'
 allowed-tools: Read, Write, Grep, Glob, AskUserQuestion
 ---
 
-# 對話沉澱
+# Conversation Braindump
 
-你要把這次對話中討論過的想法沉澱成素材，存到 `brainstorming/chat/`。用繁體中文回應。
+Distill the current conversation into reusable material, saved to `brainstorming/chat/`. Respond in the language set in CLAUDE.md.
 
-## 第一步：確認範圍
+## Process
 
-先問使用者：
+### 1. Confirm Scope
 
-> 你想要怎麼記錄這次對話？
-> 1. **問答沉澱** — 記錄討論過程、結論、還沒想清楚的部分
-> 2. **文章草稿** — 根據對話生成文章架構，經你同意後才寫
-> 3. **兩者都要**（分別存成不同檔案）
+Ask the user:
 
-等使用者回答後才繼續。
+> How would you like to capture this conversation?
+> 1. **Q&A log** — Record the discussion process, conclusions, and unresolved questions
+> 2. **Article draft** — Generate an article outline from the conversation (requires your approval before writing)
+> 3. **Both** (saved as separate files)
 
-## 第二步：檔名
+Wait for the user's answer before proceeding.
 
-格式：`brainstorming/chat/YYYYMMDD {主題}.md`
+### 2. Determine Filename
 
-- 如果使用者有提供 `$ARGUMENTS`，用它當主題
-- 如果沒有，從對話內容中提取主題
-- 問答沉澱和文章草稿用不同檔名，例如：
-  - `20260404 重新打造第二大腦 寫作探索.md`（問答沉澱）
-  - `20260404 重新打造第二大腦 文章草稿.md`（文章草稿）
+Format: `brainstorming/chat/YYYYMMDD {Topic}.md`
 
-## 第三步：寫問答沉澱
+- If `$ARGUMENTS` is provided, use it as the topic
+- If not, extract a topic from the conversation content
+- Q&A logs and article drafts get separate filenames, e.g.:
+  - `20260404 Rebuilding a Second Brain Q&A.md`
+  - `20260404 Rebuilding a Second Brain Draft.md`
 
-如果使用者選了 1 或 3，按以下格式寫：
+### 3. Write Q&A Log
+
+If the user chose option 1 or 3, write using this format:
 
 ```yaml
 ---
-question: "這次對話的核心問題（一句話）"
+question: "The core question of this conversation (one sentence)"
 asked_at: YYYY-MM-DD
-sources: [[[相關的 vault 檔案]]]
+sources: [[[Related vault files]]]
 ---
 ```
 
-### 內容結構
+#### Content Structure
 
-- **TL;DR**：2-3 句話總結這次對話最重要的收穫
-- **結論**：對話中形成的洞見，分主題列出。每條要有具體內容，不是空泛的摘要
-- **證據**：
-  - 對話中挖出的反例與張力
-  - vault 中的佐證（附 `[[連結]]`）
-  - 使用者自己舉的具體例子
-- **不確定性**：還沒想清楚的問題、懸著的問題、有矛盾但還沒解決的地方
+- **TL;DR**: 2-3 sentences summarizing the most important takeaways
+- **Conclusions**: Insights formed during the conversation, organized by topic. Each point should be specific, not a vague summary
+- **Evidence**:
+  - Counterexamples and tensions surfaced during discussion
+  - Supporting material from the vault (with `[[wikilinks]]`)
+  - Concrete examples the user provided
+- **Uncertainties**: Unresolved questions, open threads, contradictions not yet reconciled
 
-### 重要原則
+#### Key Rules
 
-- 區分「使用者自己說的」和「AI 提出的」——使用者的原話和立場要忠實保留
-- 使用者說「還沒想清楚」的地方，就記「還沒想清楚」，不要幫他補答案
-- sources 只列對話中實際引用或搜尋過的 vault 檔案
+- Distinguish "what the user said" from "what the AI proposed" — faithfully preserve the user's own words and positions
+- If the user said "I haven't figured this out yet," record it as such — do not fill in answers for them
+- Only list vault files in `sources` that were actually referenced or searched during the conversation
 
-## 第四步：寫文章草稿
+### 4. Write Article Draft
 
-如果使用者選了 2 或 3：
+If the user chose option 2 or 3:
 
-### 4a. 先提出文章架構
+#### 4a. Propose an Outline First
 
-根據對話內容，生成一個 3-5 段的文章架構，每段包含：
-- 段落標題
-- 1-2 句話說明這段要寫什麼
+Based on the conversation, generate a 3-5 section outline. Each section includes:
+- Section title
+- 1-2 sentences describing what it covers
 
-架構要遵循 CLAUDE.md 中的寫作風格：
-- 從真實故事出發 → 反轉 → 帶著疑惑反思 → 留下沒有答案的問題
-- 不用「總結來說」收尾
-- 問完問題不給答案
+The outline should follow the writing style in CLAUDE.md (if defined). General defaults:
+- Start from a real story -> reversal -> reflective doubt -> end with an open question
+- Don't wrap up with "in conclusion"
+- Ask questions without answering them
 
-**把架構給使用者看，等使用者同意或修改後才繼續寫。**
+**Show the outline to the user. Do not write until they approve or revise it.**
 
-### 4b. 寫草稿
+#### 4b. Write the Draft
 
-使用者同意架構後，寫成完整文章草稿，存到 `brainstorming/chat/`。
+After approval, write a full article draft and save to `brainstorming/chat/`.
 
-草稿原則：
-- 用對話中使用者自己的語言和例子，不要另外發明
-- 使用者沒說過的故事不要編
-- 對話中懸著的問題，在文章中也讓它懸著
-- 這是草稿，放在 brainstorming/ 而非 artifacts/——使用者自己決定什麼時候搬到 artifacts/
+Draft principles:
+- Use the user's own language and examples from the conversation — don't invent new ones
+- Don't fabricate stories the user never told
+- Questions left open in the conversation should remain open in the draft
+- This is a draft in brainstorming/, not a finished piece — the user decides when to move it to artifacts/
 
-## 重要原則
+## Braindump Principles
 
-- **先問再做**。不要假設使用者要哪種格式
-- **文章架構一定要先給使用者看過**。沒有同意不動手寫
-- **不主動搬到 artifacts/**。brainstorming/chat/ 是 AI 的，artifacts/ 是使用者自己的
-- 如果對話內容太短或太散，誠實說「這次對話的素材可能還不夠沉澱成完整記錄」
+- **Ask first, act second**: Never assume which format the user wants
+- **Outline requires approval**: Do not write the article draft without the user's explicit go-ahead
+- **Stay in brainstorming/**: Never move files to artifacts/ — that's the user's decision
+- **Be honest about thin material**: If the conversation is too short or scattered, say so rather than padding the output

@@ -46,13 +46,16 @@ artifacts/              ← Your publications: finished works
 
 ## Commands
 
-This system includes 3 Claude Code slash commands:
+This system includes 6 Claude Code slash commands:
 
 | Command | What it does |
 |---------|-------------|
+| `/init-llm` | Interactive setup — asks about your profile, preferences, scans existing files, proposes an organization plan, and configures `CLAUDE.md` |
 | `/compile` | Reads `raw/` and `artifacts/`, generates summaries in `wiki/summaries/`, extracts concepts to `wiki/concepts/`, updates indexes |
 | `/health-check` | Scans `wiki/` for consistency issues, completeness gaps, and connectivity problems. Outputs a prioritized report to `brainstorming/health/` |
 | `/thinking-partner` | Collaborative thinking — searches your vault for related notes, asks clarifying questions, helps you explore complex problems |
+| `/write-partner` | Writing exploration — surfaces related vault content, counterexamples, and open questions to help you dig deeper before writing |
+| `/braindump` | Distills a conversation into reusable material — Q&A logs, article drafts, or both — saved to `brainstorming/chat/` |
 
 ## How Compilation Works
 
