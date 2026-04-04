@@ -1,93 +1,91 @@
 ---
 name: init-llm
-description: 'Set up your knowledge base: profile, preferences, and file organization'
+description: '初始化知識庫：填寫個人資料、偏好設定、整理現有檔案'
 argument-hint: ''
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
-# Initialize Knowledge Base
+# 初始化知識庫
 
-Walk a new user through setting up their knowledge base. Gather their profile and preferences, scan for existing files, propose an organization plan, and update CLAUDE.md. Detect the user's language from their answers and respond accordingly.
+帶領新使用者完成知識庫設定：收集個人資料與偏好、掃描現有檔案、提出整理計畫，並更新 CLAUDE.md。從使用者的回答中判斷語言，並以相同語言回應。
 
-## Process
+## 流程
 
-### 1. Interview — Who Are You?
+### 1. 訪談——你是誰？
 
-Ask the user (in one message, then wait for their response):
+用一則訊息問以下問題，然後等使用者回覆：
 
-> Let's set up your knowledge base. Tell me about yourself:
+> 讓我們來設定你的知識庫。先告訴我一些關於你的事：
 >
-> 1. **Name** — What should I call you?
-> 2. **Role** — What do you do? (e.g., teacher, researcher, designer, developer)
-> 3. **Language** — What language do you prefer for output? (e.g., English, 繁體中文, 日本語)
-> 4. **Domain** — What is this knowledge base centered on? (e.g., AI, education, design, software engineering)
+> 1. **稱呼** — 我該怎麼稱呼你？
+> 2. **身份** — 你的工作或角色是什麼？（例如：教師、研究者、設計師、工程師）
+> 3. **語言** — 你偏好哪種輸出語言？（例如：繁體中文、English、日本語）
+> 4. **領域** — 這個知識庫的核心主題是什麼？（例如：AI、教育、設計、軟體開發）
 
-### 2. Interview — How Do You Work?
+### 2. 訪談——你怎麼工作？
 
-After receiving answers to Step 1, ask (in one message, then wait):
+收到第 1 步的答案後，再問（一則訊息，等使用者回覆）：
 
-> Now a few questions about how you like to work:
+> 再問幾個關於工作方式的問題：
 >
-> 1. **Interaction style** — Do you prefer "ask before acting" or "be direct, move fast"?
-> 2. **Exploration vs. output** — When you have a new topic, do you prefer deep discussion first (`/thinking-partner` style) or jump straight to generating compiled output (`/compile` style)?
-> 3. **Writing style** — Do you have a specific voice or style for your writing? (optional — skip if unsure)
-> 4. **Artifact subfolders** — Any subfolders you already know you'll need under `artifacts/`? (e.g., `essays/`, `blog-posts/`, `teaching/`, `talks/`)
+> 1. **互動風格** — 你偏好「先問再動」還是「直接行動、快速推進」？
+> 2. **探索 vs. 生成** — 碰到新主題時，你比較想先深度討論（`/thinking-partner` 風格），還是直接生成整理好的內容（`/compile` 風格）？
+> 3. **寫作風格** — 你有特定的寫作口吻或風格嗎？（選填，不確定可跳過）
+> 4. **成果資料夾** — `artifacts/` 下有哪些子資料夾是你已經知道會用到的？（例如：`文章/`、`教學記錄/`、`演講/`）
 
-### 3. Scan Existing Files
+### 3. 掃描現有檔案
 
-Scan the vault for `.md` files and folders outside the template structure:
+掃描 vault 中不屬於範本結構的 `.md` 檔案與資料夾：
 
-- Use Glob to find files in the root directory and any non-template folders
-- Template folders to ignore: `raw/`, `wiki/`, `brainstorming/`, `artifacts/`, `attachments/`, `templates/`, `docs/`, `.claude/`, `.git/`
-- Identify files that could be moved into `raw/` or `artifacts/`
-- Identify existing folders that could map to subfolders of `raw/` or `artifacts/`
+- 用 Glob 找出根目錄及非範本資料夾中的檔案
+- 以下為範本內建資料夾，略過不處理：`raw/`、`wiki/`、`brainstorming/`、`artifacts/`、`attachments/`、`templates/`、`docs/`、`.claude/`、`.git/`
+- 找出可以移入 `raw/` 或 `artifacts/` 的檔案
+- 找出可以對應到 `raw/` 或 `artifacts/` 子資料夾的現有資料夾
 
-If the vault is a fresh clone with no extra files, skip to Step 5.
+如果是全新 clone、沒有額外檔案，跳至第 5 步。
 
-### 4. Propose Migration Plan
+### 4. 提出整理計畫
 
-Present the user with a clear plan:
+用清單格式呈現計畫，讓使用者可以逐條同意、拒絕或修改：
 
-- List each file/folder and where it would be moved (with brief reasoning)
-- List new subfolders to be created under `artifacts/` based on their role and domain
-- List anything that stays untouched (e.g., `README.md`, `CLAUDE.md`, `docs/`)
+- 列出每個檔案/資料夾的移動目標，附上簡短理由
+- 列出依據使用者角色與領域要在 `artifacts/` 下新建的子資料夾
+- 列出不異動的項目（例如：`README.md`、`CLAUDE.md`、`docs/`）
 
-Format as a checklist so the user can approve, reject, or modify individual items.
+**等使用者明確同意後才繼續執行。**
 
-**Do not proceed until the user explicitly approves.**
+### 5. 執行
 
-### 5. Execute
+取得同意後：
 
-After approval:
+1. **建立資料夾** — 建立已協議的新子資料夾（例如：`artifacts/文章/`）
+2. **移動檔案** — 用 `mv` 移動檔案（不用 `cp`，避免重複）
+3. **更新 CLAUDE.md** — 替換所有佔位符：
+   - `[YOUR_NAME]` → 使用者稱呼
+   - `[YOUR_ROLE]` → 使用者身份（可加入訪談中的描述）
+   - `[YOUR_LANGUAGE]` → 偏好語言（出現在「About You」與「Vault Overview」兩處）
+   - `[YOUR_DOMAIN]` → 知識庫領域
+   - 更新互動風格那行
+   - 如果使用者提供了寫作風格，在 `## Naming Conventions` 後加入 `## 寫作風格` 段落
+   - 更新 `## Available Commands`，列出所有目前可用的指令
+4. **建立索引檔案** — 如果 `wiki/indexes/All-Sources.md` 和 `wiki/indexes/All-Concepts.md` 不存在，建立空白表頭
 
-1. **Create folders** — Create any new subfolders agreed upon (e.g., `artifacts/essays/`)
-2. **Move files** — Move files as agreed using `mv` (never `cp`, to avoid duplicates)
-3. **Update CLAUDE.md** — Replace all placeholder values:
-   - `[YOUR_NAME]` → user's name
-   - `[YOUR_ROLE]` → user's role (with any elaboration from context)
-   - `[YOUR_LANGUAGE]` → user's preferred language (appears in both "About You" and "Vault Overview")
-   - `[YOUR_DOMAIN]` → user's domain
-   - Interaction style line
-   - If the user provided a writing style, add a `## Writing Style` section after `## Naming Conventions`
-   - Update `## Available Commands` to list all current commands
-4. **Create index files** — If `wiki/indexes/All-Sources.md` and `wiki/indexes/All-Concepts.md` don't exist, create them with empty table headers
+### 6. 總結與下一步
 
-### 6. Summary & Next Steps
+告訴使用者完成了哪些事（移動了哪些檔案、更新了 CLAUDE.md、建立了哪些資料夾）。
 
-Tell the user what was done (files moved, CLAUDE.md updated, folders created).
+然後建議下一步：
 
-Then suggest next steps:
-
-> Your knowledge base is ready. Here's what you can do next:
+> 你的知識庫已經準備好了。接下來可以：
 >
-> - Drop a file into `raw/articles/` and run `/compile` to see your first summary
-> - Run `/thinking-partner` to start exploring a topic
-> - Run `/health-check` any time to check the state of your wiki
+> - 把第一篇文章放進 `raw/articles/`，執行 `/compile` 看看第一份摘要
+> - 執行 `/thinking-partner` 開始探索一個主題
+> - 隨時執行 `/health-check` 確認 wiki 的狀態
 
-## Init Principles
+## 原則
 
-- **Never assume — always ask.** Every decision comes from the user's answers, not from defaults
-- **Plan before acting.** Show the migration plan and wait for approval before moving any files
-- **Use `mv`, not `cp`.** Avoid duplicates when reorganizing
-- **Don't touch content.** This command organizes files and updates CLAUDE.md — it never edits the user's notes or articles
-- **Detect language from conversation.** Since CLAUDE.md isn't configured yet, infer the response language from how the user answers
+- **不預設、多詢問**：所有決定都來自使用者的回答，不套用預設值
+- **先計畫再行動**：展示整理計畫並等待同意，才移動任何檔案
+- **用 `mv` 不用 `cp`**：整理時避免產生重複檔案
+- **不碰內容**：這個指令只整理檔案、更新 CLAUDE.md，不編輯使用者的筆記或文章
+- **從對話判斷語言**：CLAUDE.md 尚未設定，從使用者的回答方式推斷回應語言

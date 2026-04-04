@@ -1,83 +1,94 @@
 ---
 name: health-check
-description: 'Knowledge base health check (consistency, completeness, connectivity)'
+description: '知識庫健康檢查（一致性、完整性、連結性）'
 argument-hint: ''
 ---
 
-# Knowledge Base Health Check
+# 知識庫健康檢查
 
-Periodically scan wiki/ for quality issues — inconsistencies, gaps, and isolated nodes — and produce an actionable repair report.
+定期掃描 wiki/ 的品質問題——不一致、缺口、孤立節點——並產出一份可執行的修復報告。
 
-## Process
+## 流程
 
-### 1. Scan All wiki/ Files
+### 1. 掃描所有 wiki/ 檔案
 
-- Read all concept entries in wiki/concepts/
-- Read all summaries in wiki/summaries/
-- Read wiki/indexes/All-Sources.md and All-Concepts.md
+- 讀取 wiki/concepts/ 中所有概念條目
+- 讀取 wiki/summaries/ 中所有摘要
+- 讀取 wiki/indexes/All-Sources.md 與 All-Concepts.md
 
-### 2. Consistency Check
+### 2. 一致性檢查
 
-Check each of the following:
+逐一檢查以下項目：
 
-**Terminology Conflicts**
-- Does the same term have contradictory definitions across different concept entries or summaries?
-- Example: "RAG" defined as "Retrieval-Augmented Generation" in one entry but as "vector database search" in another
+**術語衝突**
 
-**Bidirectional Related Links**
-- If Concept A lists B in its `related` field, check if B also lists A
-- List all one-way links
+- 同一個術語在不同概念條目或摘要中是否有互相矛盾的定義？
+- 例如：「RAG」在某個條目定義為「檢索增強生成」，在另一個卻被描述為「向量資料庫搜尋」
 
-**Naming Consistency**
-- Are tags and concept names consistent across files?
-- Common issues: variant spellings, inconsistent capitalization, synonyms used interchangeably
+**雙向關聯連結**
 
-**Frontmatter Format**
-- Do all sources use wikilink format `"[[xxx]]"`?
-- Do all summaries have an `origin` field?
-- Do all concept entries have an `updated` date?
+- 如果概念 A 的 `related` 欄位列了 B，確認 B 是否也列了 A
+- 列出所有單向連結
 
-### 3. Completeness Check
+**命名一致性**
 
-**Empty Concept Sections**
-- Check whether each concept has empty or placeholder-only content in:
-  - My Practice
-  - External Perspectives
-  - Tensions & Gaps
-  - Examples
-  - Sources (Mine / External)
+- 標籤與概念名稱在各檔案中是否一致？
+- 常見問題：拼寫變體、大小寫不統一、同義詞交替使用
 
-**Potential New Concepts**
-- Scan the "Key Terms" sections across all summaries
-- Find terms mentioned in 2+ summaries that don't yet have a standalone concept entry
-- List candidate concepts with occurrence count and sources
+**Frontmatter 格式**
 
-**Index Sync**
-- Compare sources listed in All-Sources.md vs actual files in wiki/summaries/
-- Find ghost entries (in index but file missing)
-- Find unindexed files (file exists but not in index)
+- 所有來源是否都用 wikilink 格式 `"[[xxx]]"`？
+- 所有摘要是否都有 `origin` 欄位？
+- 所有概念條目是否都有 `updated` 日期？
 
-**Uncompiled Sources**
-- Count .md files in raw/ and artifacts/ that don't appear in All-Sources.md
-- Break down by subfolder
+### 3. 完整性檢查
 
-### 4. Connectivity Check
+**空白概念段落**
 
-**Orphan Summaries**
-- Which wiki/summaries/ files are not referenced by any wiki/concepts/ entry's sources?
-- These summaries may contain concepts worth extracting
+- 檢查每個概念是否有以下段落為空或只有佔位文字：
+  - 我的實踐
+  - 外部觀點
+  - 張力與缺口
+  - 例子
+  - 來源（我的 / 外部）
 
-**Single-Source Concepts**
-- Which wiki/concepts/ entries have only 1 source?
-- Single-source concepts are fragile — suggest finding more supporting sources
+**潛在新概念**
 
-**Missing Link Suggestions**
-- Based on content similarity between concept entries, suggest `related` links that should exist but don't
-- Based on tag co-occurrence across summaries, suggest potentially related concepts
+- 掃描所有摘要的「術語」段落
+- 找出在 2 個以上摘要中出現、但還沒有獨立概念條目的術語
+- 列出候選概念，附出現次數與來源
 
-### 5. Generate Report
+**索引同步**
 
-Output to `brainstorming/health/YYYYMMDD Health-Check.md`
+- 比對 All-Sources.md 中列出的來源 vs. wiki/summaries/ 中的實際檔案
+- 找出幽靈條目（索引中有，但檔案不存在）
+- 找出未索引的檔案（檔案存在，但不在索引中）
+
+**未編譯來源**
+
+- 計算 raw/ 和 artifacts/ 中沒有出現在 All-Sources.md 的 .md 檔案數量
+- 依子資料夾分類列出
+
+### 4. 連結性檢查
+
+**孤立摘要**
+
+- 哪些 wiki/summaries/ 的檔案沒有被任何 wiki/concepts/ 條目的 sources 引用？
+- 這些摘要可能有值得提取的概念
+
+**單一來源概念**
+
+- 哪些 wiki/concepts/ 條目只有 1 個來源？
+- 單一來源的概念比較脆弱——建議找更多佐證來源
+
+**缺失連結建議**
+
+- 根據概念條目之間的內容相似性，建議應該存在但目前沒有的 `related` 連結
+- 根據摘要之間的標籤共現，建議可能相關的概念
+
+### 5. 生成報告
+
+輸出到 `brainstorming/health/YYYYMMDD 健康檢查.md`
 
 ```yaml
 ---
@@ -90,39 +101,40 @@ stats:
 ---
 ```
 
-Report structure:
+報告結構：
 
 ```markdown
-# Knowledge Base Health Check — YYYY-MM-DD
+# 知識庫健康檢查 — YYYY-MM-DD
 
-## Overview
-(Concept count, summary count, uncompiled count, changes since last check)
+## 概覽
+（概念數、摘要數、未編譯數、與上次相比的變化）
 
-## Consistency Issues
-(Each issue with specific filenames and suggested fix)
+## 一致性問題
+（每個問題附具體檔名與建議修法）
 
-## Completeness Gaps
-(Empty sections, candidate new concepts, index sync issues)
+## 完整性缺口
+（空白段落、候選新概念、索引同步問題）
 
-## Connectivity Suggestions
-(Orphan summaries, single-source concepts, suggested new links)
+## 連結性建議
+（孤立摘要、單一來源概念、建議新增的連結）
 
-## Recommended Actions (by priority)
-1. 🔴 Must fix: Consistency issues (cause confusion)
-2. 🟡 Should fix: Completeness gaps (worth filling but not urgent)
-3. 🟢 Nice to have: Connectivity improvements (enrichment)
+## 建議行動（依優先序）
+1. 🔴 必須修：一致性問題（會造成混淆）
+2. 🟡 應該修：完整性缺口（值得填補，但不緊急）
+3. 🟢 加分項：連結性改善（豐富知識網絡）
 ```
 
-### 6. Report Results
+### 6. 回報結果
 
-Tell the user:
-- Total issue count (across three dimensions)
-- Top 3 items to prioritize
-- Report file path
+告訴使用者：
 
-## Check Principles
+- 總問題數（依三個維度分類）
+- 優先處理的前 3 件事
+- 報告檔案路徑
 
-- **Read-only**: Health check only produces reports, never modifies wiki/ files directly
-- **Actionable specifics**: Every issue must include a suggested fix, not vague advice
-- **Compare with previous**: If brainstorming/health/ contains a prior report, compare changes (issues added/resolved)
-- **No duplicate reporting**: The same issue should not appear in multiple sections
+## 檢查原則
+
+- **唯讀**：健康檢查只產出報告，不直接修改 wiki/ 的檔案
+- **可執行的具體內容**：每個問題都必須附上建議修法，不能只給模糊建議
+- **與上次比較**：如果 brainstorming/health/ 中有之前的報告，比較變化（新增 / 已解決的問題）
+- **不重複回報**：同一個問題不應出現在多個段落中

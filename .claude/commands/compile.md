@@ -1,156 +1,160 @@
 ---
 name: compile
-description: 'Compile raw/ and artifacts/ into wiki/ (summaries, concepts, indexes)'
-argument-hint: '[folder path or file count, e.g., raw/articles 10 or artifacts/essays]'
+description: '編譯 raw/ 與 artifacts/ 成 wiki/（摘要、概念、索引）'
+argument-hint: '[資料夾路徑或檔案數量，例如 raw/articles 10 或 artifacts/essays]'
 ---
 
-# Knowledge Base Compilation
+# 知識庫編譯
 
-Compile raw/ (source material) and artifacts/ (your works) into structured knowledge in wiki/.
+把 raw/（素材）與 artifacts/（你的作品）編譯成結構化知識，存入 wiki/。
 
-## Process
+## 流程
 
-### 1. Determine Compilation Scope
+### 1. 確認編譯範圍
 
-- If the user specifies a path or count, process that scope
-- If unspecified, read wiki/indexes/All-Sources.md, compare against raw/ and artifacts/ to find **new uncompiled files**
-- If new files exceed 15, inform the user and suggest batching (10-15 per batch)
+- 如果使用者指定了路徑或數量，就處理那個範圍
+- 如果沒有指定，讀取 wiki/indexes/All-Sources.md，與 raw/ 和 artifacts/ 比對，找出**尚未編譯的新檔案**
+- 如果新檔案超過 15 個，告知使用者，建議分批處理（每批 10-15 個）
 
-### 2. Determine Source Type
+### 2. 判斷來源類型
 
-Automatically determine `origin` based on the file's subfolder path:
+根據檔案的子資料夾路徑自動判斷 `origin`：
 
-**origin: external** (external sources — written by others)
+**origin: external**（外部來源——他人撰寫）
+
 - `raw/articles/`
 - `raw/books/`
 - `raw/podcasts/`
 - `raw/papers/`
 
-**origin: self** (your own — written by the user)
+**origin: self**（自己的——使用者撰寫）
+
 - `raw/notes/`
 - `raw/projects/`
 - `artifacts/*`
 
-### 3. Read Each Source File
+### 3. 讀取每個來源檔案
 
-Read each file and understand its content. Process most recent files first (sorted by date).
+讀取每個檔案並理解其內容。依日期由新到舊處理。
 
-### 4. Generate Summaries (wiki/summaries/)
+### 4. 生成摘要（wiki/summaries/）
 
-Produce one summary per source. Filename format: `YYYYMMDD Short-Title.md`
+每個來源產出一份摘要。檔名格式：`YYYYMMDD 簡短標題.md`
 
-#### External Sources (origin: external)
+#### 外部來源（origin: external）
 
 ```yaml
 ---
 origin: external
-source: "[[Original File Name]]"
+source: "[[原始檔案名稱]]"
 compiled: YYYY-MM-DD
 tags: [tag1, tag2]
 ---
 
-# Title
+# 標題
 
-## Core Conclusion
-(1-3 sentences — the most important takeaway)
+## 核心結論
+（1-3 句話——最重要的收穫）
 
-## Key Evidence
-(Specific facts, data, quotes supporting the conclusion)
+## 關鍵證據
+（支持結論的具體事實、數據、引述）
 
-## Open Questions
-(Uncertain, controversial, or unverified claims)
+## 疑點
+（不確定、有爭議或尚未驗證的主張）
 
-## Key Terms
-(Important terms introduced in this source, with brief definitions)
+## 術語
+（這個來源引入的重要術語，附簡短定義）
 ```
 
-#### Self-Authored Works (origin: self)
+#### 自己的作品（origin: self）
 
 ```yaml
 ---
 origin: self
-source: "[[Your Work File Name]]"
+source: "[[你的作品檔名]]"
 compiled: YYYY-MM-DD
 tags: [tag1, tag2]
 ---
 
-# Title
+# 標題
 
-## My Claims
-(Core argument or goal of this piece)
+## 我的主張
+（這篇作品的核心論點或目標）
 
-## Practice Experience
-(What worked, what didn't, what actually happened)
+## 實踐經驗
+（做了什麼、成效如何、實際發生了什麼）
 
-## Unresolved Questions
-(Questions that remain open after writing or doing this)
+## 未解問題
+（寫完或做完後仍懸著的問題）
 
-## Comparison with Research
-(How your experience aligns with or contradicts known research)
+## 與研究的對照
+（你的經驗如何與已知研究吻合或矛盾）
 ```
 
-### 5. Extract or Update Concepts (wiki/concepts/)
+### 5. 提取或更新概念（wiki/concepts/）
 
-Identify concepts from summaries. Filename format: `Concept Name.md`
+從摘要中找出概念。檔名格式：`概念名稱.md`
 
-- **New concepts**: Create entry
+**新概念**：建立條目
 
 ```yaml
 ---
-concept: Concept Name
-related: [Related Concept 1, Related Concept 2]
+concept: 概念名稱
+related: [相關概念1, 相關概念2]
 updated: YYYY-MM-DD
 sources:
-  - "[[Source 1]]"
+  - "[[來源1]]"
 ---
 
-# Concept Name
+# 概念名稱
 
-## Definition
+## 定義
 
-## My Practice
-(Compiled from origin: self sources — how you use this concept, what happened, lessons learned)
+## 我的實踐
+（從 origin: self 來源整理——如何使用這個概念、發生了什麼、學到什麼）
 
-## External Perspectives
-(Compiled from origin: external sources — what research says, how others define it)
+## 外部觀點
+（從 origin: external 來源整理——研究怎麼說、他人如何定義）
 
-## Tensions & Gaps
-(Contradictions between your experience and external research, or things not yet verified)
+## 張力與缺口
+（你的經驗與外部研究之間的矛盾，或尚未驗證的地方）
 
-## Examples
+## 例子
 
-## Sources
-### Mine
-### External
+## 來源
+### 我的
+### 外部
 ```
 
-- **Existing concept update rules**:
-  - Append new source to the sources list
-  - Route new content to the appropriate section based on origin: `origin: self` → "My Practice", `origin: external` → "External Perspectives"
-  - If a concept has both self and external sources, review whether "Tensions & Gaps" needs updating
-  - Add new examples to "Examples"
-  - Update the `updated` date
-  - Route sources to "Mine" or "External" in the sources list
+**現有概念的更新規則**：
 
-### 6. Update Indexes (wiki/indexes/)
+- 在 sources 清單中附加新來源
+- 依 origin 把新內容路由到對應段落：`origin: self` → 「我的實踐」，`origin: external` → 「外部觀點」
+- 如果概念同時有 self 和 external 來源，檢查「張力與缺口」是否需要更新
+- 在「例子」中新增新例子
+- 更新 `updated` 日期
+- 在來源清單中將來源歸類至「我的」或「外部」
 
-- **All-Sources.md**: Add a row for each newly compiled source (source, tags, key takeaway, status)
-- **All-Concepts.md**: If new concept entries were created, add a row (concept, entry link, definition, related concepts)
+### 6. 更新索引（wiki/indexes/）
 
-### 7. Report Results
+- **All-Sources.md**：為每個新編譯的來源新增一行（來源、標籤、核心收穫、狀態）
+- **All-Concepts.md**：如果有新建概念條目，新增一行（概念、條目連結、定義、相關概念）
 
-Tell the user:
-- How many files were compiled (broken down by external vs self)
-- Which summaries were created
-- Which concepts were created or updated
-- Index update status
+### 7. 回報結果
 
-## Compilation Principles
+告訴使用者：
 
-- **Never modify raw/ or artifacts/**: Source materials are read-only
-- **source is required**: Every summary must have a wikilink back to the original file
-- **origin is required**: external or self, auto-determined from source path
-- **Open Questions must not be empty** (external): If no issues found, write "This source's arguments are well-supported; no significant open questions identified"
-- **Concepts require cross-references**: Only create a standalone concept entry if it's mentioned in 2+ summaries. Single mentions go in the summary's Key Terms section
-- **No filename prefixes**: Don't add S-, C- or similar prefixes to summary or concept filenames
-- **User-first perspective in concept entries**: "My Practice" comes before "External Perspectives"
+- 共編譯了多少個檔案（分 external 與 self）
+- 建立了哪些摘要
+- 建立或更新了哪些概念
+- 索引更新狀態
+
+## 編譯原則
+
+- **不修改 raw/ 或 artifacts/**：素材是唯讀的
+- **source 是必填欄位**：每份摘要都必須有 wikilink 指回原始檔案
+- **origin 是必填欄位**：external 或 self，從來源路徑自動判斷
+- **疑點不能留空**（external）：如果沒有發現問題，寫「這個來源的論點有充分支撐；沒有發現重大疑點」
+- **概念需要交叉引用**：只有在 2 個以上摘要中出現的概念才建立獨立條目。單一提及放在摘要的「術語」段落即可
+- **檔名不加前綴**：摘要與概念的檔名不加 S-、C- 等前綴
+- **概念條目以使用者視角為主**：「我的實踐」在「外部觀點」之前

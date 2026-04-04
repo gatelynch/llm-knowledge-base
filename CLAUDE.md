@@ -181,13 +181,13 @@ sources: [[[Summary 1]], [[Summary 2]]]
 - Run `/health-check` periodically to scan wiki/ for issues
 - Reports go to `brainstorming/health/`
 
-## Available Commands
+## 可用指令
 
 ```
-/init-llm             # Interactive setup for new users
-/compile              # Compile raw/ and artifacts/ into wiki/
-/health-check         # Knowledge base health check
-/thinking-partner     # Collaborative thinking partner
-/write-partner        # Writing exploration before drafting
-/braindump            # Distill conversation into reusable material
+/init-llm             # 新使用者互動式設定
+/compile              # 編譯 raw/ 與 artifacts/ 成 wiki/
+/health-check         # 知識庫健康檢查
+/thinking-partner     # 協作思考夥伴
+/write-partner        # 動筆前的寫作探索
+/braindump            # 把對話沉澱成可複用的素材
 ```

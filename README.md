@@ -1,95 +1,96 @@
-# LLM Knowledge Base
+# LLM 知識庫
 
-A personal knowledge management system powered by LLM compilation. Based on [Andrej Karpathy's LLM Knowledge Base workflow](https://x.com/karpathy/status/1908536205968998906) — separating raw materials from compiled knowledge, with an LLM as your librarian.
+以 LLM 編譯驅動的個人知識管理系統。靈感來自 [Andrej Karpathy 的 LLM 知識庫工作流程](https://x.com/karpathy/status/2039805659525644595)——把原始素材與編譯知識分開，讓 LLM 擔任你的圖書館員。
 
-## The Problem
+## 問題所在
 
-Most personal knowledge systems become graveyards. You clip articles, take notes, highlight books — then never look at them again. The gap between **collecting** and **understanding** is where knowledge dies.
+大多數個人知識系統最終都成了墓地。你收藏文章、做筆記、畫重點——然後再也不去看。**收集**與**理解**之間的落差，就是知識死去的地方。
 
-This system closes that gap by using an LLM to **compile** your raw materials into structured, interconnected knowledge — summaries, concept entries, and indexes — while keeping your original sources untouched.
+這個系統透過讓 LLM **編譯**你的原始素材，把它們轉化成結構化、相互連結的知識——摘要、概念條目、索引——同時保持原始來源完好不動，來填補這個落差。
 
-## Architecture
-
-```
-raw/                    ← Your library: unedited source material
-  ├── articles/           clipped articles
-  ├── books/              book notes & highlights
-  ├── podcasts/           podcast transcripts
-  ├── papers/             academic papers
-  ├── notes/              your quick thoughts
-  └── projects/           project-related material
-
-wiki/                   ← Your encyclopedia: LLM-compiled knowledge
-  ├── summaries/          one summary per source
-  ├── concepts/           concept entries (cross-referenced)
-  └── indexes/            All-Sources.md, All-Concepts.md
-
-brainstorming/          ← Your lab notebook: exploration & quality
-  ├── chat/               Q&A logs with reasoning
-  └── health/             knowledge base health reports
-
-artifacts/              ← Your publications: finished works
-  └── projects/           your projects and outputs
-```
-
-**Key principle**: Raw materials are read-only. The LLM compiles them into wiki/, but never modifies your originals.
-
-## Quick Start
-
-1. Click **"Use this template"** on GitHub to create your own repo
-2. Clone it to your machine
-3. Open the folder in [Obsidian](https://obsidian.md)
-4. Install [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview)
-5. Customize `CLAUDE.md` — fill in your name, domain, and language preference
-6. Drop your first article into `raw/articles/`
-7. Run `/compile` — watch your first summary and concept entries appear in `wiki/`
-
-## Commands
-
-This system includes 6 Claude Code slash commands:
-
-| Command | What it does |
-|---------|-------------|
-| `/init-llm` | Interactive setup — asks about your profile, preferences, scans existing files, proposes an organization plan, and configures `CLAUDE.md` |
-| `/compile` | Reads `raw/` and `artifacts/`, generates summaries in `wiki/summaries/`, extracts concepts to `wiki/concepts/`, updates indexes |
-| `/health-check` | Scans `wiki/` for consistency issues, completeness gaps, and connectivity problems. Outputs a prioritized report to `brainstorming/health/` |
-| `/thinking-partner` | Collaborative thinking — searches your vault for related notes, asks clarifying questions, helps you explore complex problems |
-| `/write-partner` | Writing exploration — surfaces related vault content, counterexamples, and open questions to help you dig deeper before writing |
-| `/braindump` | Distills a conversation into reusable material — Q&A logs, article drafts, or both — saved to `brainstorming/chat/` |
-
-## How Compilation Works
+## 架構
 
 ```
-1. You drop a file into raw/articles/
-2. Run /compile
-3. The LLM reads the file and determines origin (external vs self)
-4. Generates a summary in wiki/summaries/ with:
-   - Core Conclusion
-   - Key Evidence
-   - Open Questions
-   - Key Terms
-5. Extracts concepts mentioned 2+ times across summaries → wiki/concepts/
-6. Updates wiki/indexes/ (All-Sources.md, All-Concepts.md)
+raw/                    ← 你的圖書館：未經編輯的原始素材
+  ├── articles/           收藏的文章
+  ├── books/              書籍筆記與畫線
+  ├── podcasts/           podcast 逐字稿
+  ├── papers/             學術論文
+  ├── notes/              你的快速想法
+  └── projects/           專案相關素材
+
+wiki/                   ← 你的百科全書：LLM 編譯的知識
+  ├── summaries/          每個來源一份摘要
+  ├── concepts/           概念條目（交叉引用）
+  └── indexes/            All-Sources.md、All-Concepts.md
+
+brainstorming/          ← 你的實驗筆記本：探索與品質管理
+  ├── chat/               問答記錄與推理過程
+  └── health/             知識庫健康報告
+
+artifacts/              ← 你的發表成果：完成的作品
+  └── projects/           你的專案與產出
 ```
 
-Each concept entry separates **your practice** from **external perspectives**, with a dedicated section for **tensions & gaps** between the two. This is the core intellectual value — your experience and the research exist side by side, and contradictions are surfaced, not buried.
+**核心原則**：原始素材是唯讀的。LLM 把它們編譯進 wiki/，但永遠不修改你的原始檔案。
 
-## Works Without an LLM
+## 快速開始
 
-The folder structure and Obsidian templates work on their own. You can manually write summaries and concept entries following the formats in `CLAUDE.md`. The Claude Code commands simply automate what you'd otherwise do by hand.
+1. 在 GitHub 點 **「Use this template」** 建立你自己的 repo
+2. Clone 到本機
+3. 用 [Obsidian](https://obsidian.md) 開啟資料夾
+4. 安裝 [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview)
+5. 執行 `/init-llm` 進行互動式設定——它會問你幾個問題，然後幫你設定好一切
+6. 把第一篇文章丟進 `raw/articles/`
+7. 執行 `/compile`——看著第一份摘要和概念條目出現在 `wiki/` 裡
 
-## Customization
+## 指令
 
-See [docs/customization.md](docs/customization.md) for how to:
-- Change the language of compilation output
-- Add domain-specific subfolders under `artifacts/`
-- Customize section headers in summaries and concept entries
-- Adapt the system for your field
+這個系統包含 6 個 Claude Code 斜線指令：
 
-## Credit
+| 指令 | 功能 |
+|------|------|
+| `/init-llm` | 互動式設定——詢問你的個人資料與偏好、掃描現有檔案、提出整理計畫，並設定 `CLAUDE.md` |
+| `/compile` | 讀取 `raw/` 和 `artifacts/`，在 `wiki/summaries/` 生成摘要，提取概念至 `wiki/concepts/`，更新索引 |
+| `/health-check` | 掃描 `wiki/` 的一致性問題、完整性缺口與連結性問題，輸出優先排序報告至 `brainstorming/health/` |
+| `/thinking-partner` | 協作思考——搜尋 vault 中的相關筆記、提出釐清問題，幫你深度探索複雜問題 |
+| `/write-partner` | 寫作探索——找出 vault 中的相關內容、反例與開放問題，幫你在動筆前把想法挖得更深 |
+| `/braindump` | 把對話沉澱成可複用的素材——問答記錄、文章草稿，或兩者都要——存至 `brainstorming/chat/` |
 
-Architecture inspired by [Andrej Karpathy's LLM Knowledge Base concept](https://x.com/karpathy/status/1908536205968998906). Original implementation and compilation workflow by [@gatelynch](https://github.com/gatelynch).
+## 編譯如何運作
 
-## License
+```
+1. 你把一個檔案放進 raw/articles/
+2. 執行 /compile
+3. LLM 讀取檔案，判斷 origin（external vs. self）
+4. 在 wiki/summaries/ 生成摘要，包含：
+   - 核心結論
+   - 關鍵證據
+   - 疑點
+   - 術語
+5. 把在 2 個以上摘要中出現的概念提取至 wiki/concepts/
+6. 更新 wiki/indexes/（All-Sources.md、All-Concepts.md）
+```
+
+每個概念條目把**你的實踐**與**外部觀點**分開，並有專門的**張力與缺口**段落。這是核心知識價值所在——你的經驗與研究並排存在，矛盾被浮現出來，而不是被掩蓋。
+
+## 不用 LLM 也可以運作
+
+資料夾結構與 Obsidian 範本本身就能獨立運作。你可以按照 `CLAUDE.md` 中的格式手動撰寫摘要和概念條目。Claude Code 指令只是自動化了你原本要手動完成的事。
+
+## 自訂
+
+參閱 [docs/customization.md](docs/customization.md) 了解如何：
+
+- 更改編譯輸出的語言
+- 在 `artifacts/` 下新增特定領域的子資料夾
+- 自訂摘要和概念條目的段落標題
+- 為你的領域調整系統
+
+## 致謝
+
+架構靈感來自 [Andrej Karpathy 的 LLM 知識庫概念](https://x.com/karpathy/status/2039805659525644595)。原始實作與編譯工作流程由 [@gatelynch](https://github.com/gatelynch) 完成。
+
+## 授權
 
 MIT
