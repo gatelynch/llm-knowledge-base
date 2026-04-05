@@ -18,7 +18,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 > 讓我們來設定你的知識庫。先告訴我一些關於你的事：
 >
 > 1. **稱呼** — 我該怎麼稱呼你？
-> 2. **身份** — 你的工作或角色是什麼？（例如：教師、研究者、設計師、工程師）
+> 2. **簡介** — 用 1-2 句話描述你是誰、你關心什麼（這會寫進「關於使用者」段落）
 > 3. **語言** — 你偏好哪種輸出語言？（例如：繁體中文、English、日本語）
 > 4. **領域** — 這個知識庫的核心主題是什麼？（例如：AI、教育、設計、軟體開發）
 
@@ -31,14 +31,15 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 > 1. **互動風格** — 你偏好「先問再動」還是「直接行動、快速推進」？
 > 2. **探索 vs. 生成** — 碰到新主題時，你比較想先深度討論（`/thinking-partner` 風格），還是直接生成整理好的內容（`/compile` 風格）？
 > 3. **寫作風格** — 你有特定的寫作口吻或風格嗎？（選填，不確定可跳過）
-> 4. **成果資料夾** — `artifacts/` 下有哪些子資料夾是你已經知道會用到的？（例如：`文章/`、`教學記錄/`、`演講/`）
+> 4. **核心主題** — 列出你的 3-5 個核心主題，附簡短描述（例如：「個人知識管理——建立可持續的知識系統」）
+> 5. **成果資料夾** — `artifacts/` 下有哪些子資料夾是你已經知道會用到的？（例如：`文章/`、`教學記錄/`、`演講/`）
 
 ### 3. 掃描現有檔案
 
 掃描 vault 中不屬於範本結構的 `.md` 檔案與資料夾：
 
 - 用 Glob 找出根目錄及非範本資料夾中的檔案
-- 以下為範本內建資料夾，略過不處理：`raw/`、`wiki/`、`brainstorming/`、`artifacts/`、`attachments/`、`templates/`、`docs/`、`.claude/`、`.git/`
+- 以下為範本內建資料夾，略過不處理：`raw/`、`wiki/`、`brainstorming/`、`artifacts/`、`attachments/`、`docs/`、`.claude/`、`.git/`
 - 找出可以移入 `raw/` 或 `artifacts/` 的檔案
 - 找出可以對應到 `raw/` 或 `artifacts/` 子資料夾的現有資料夾
 
@@ -60,14 +61,23 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 1. **建立資料夾** — 建立已協議的新子資料夾（例如：`artifacts/文章/`）
 2. **移動檔案** — 用 `mv` 移動檔案（不用 `cp`，避免重複）
-3. **更新 CLAUDE.md** — 替換所有佔位符：
-   - `[YOUR_NAME]` → 使用者稱呼
-   - `[YOUR_ROLE]` → 使用者身份（可加入訪談中的描述）
-   - `[YOUR_LANGUAGE]` → 偏好語言（出現在「About You」與「Vault Overview」兩處）
-   - `[YOUR_DOMAIN]` → 知識庫領域
-   - 更新互動風格那行
-   - 如果使用者提供了寫作風格，在 `## Naming Conventions` 後加入 `## 寫作風格` 段落
-   - 更新 `## Available Commands`，列出所有目前可用的指令
+3. **更新 CLAUDE.md** — 替換以下佔位符與段落：
+
+   **佔位符替換：**
+   - `[YOUR_BIO — 用 1-2 句話描述你是誰、你關心什麼]` → 使用者簡介
+   - `[YOUR_NAME]` → 使用者稱呼（出現在「互動原則」）
+   - `[YOUR_LANGUAGE]` → 偏好語言（出現在「互動原則」、「Vault 概覽」、「重要說明」三處）
+   - `[YOUR_DOMAIN]` → 知識庫領域（出現在「Vault 概覽」）
+   - `[DATE]` → 今天的日期
+
+   **段落更新：**
+   - **互動原則**：依使用者偏好調整（例如：若偏好「直接行動」，移除「先告訴我你的計畫」那條）
+   - **寫作風格**：如果使用者提供了寫作風格，取消 HTML comment 並填入內容；若跳過則保留 comment 原狀
+   - **核心主題**：取消 HTML comment，填入使用者提供的 3-5 個主題
+   - **知識庫架構**：更新 `artifacts/` 下的子資料夾註解，反映使用者實際建立的資料夾
+   - **筆記分類**：依使用者的領域調整分類描述（例如教師的分類會不同於工程師）
+   - **重要說明**：替換 `[YOUR_LANGUAGE]` 為實際語言
+
 4. **建立索引檔案** — 如果 `wiki/indexes/All-Sources.md` 和 `wiki/indexes/All-Concepts.md` 不存在，建立空白表頭
 
 ### 6. 總結與下一步
