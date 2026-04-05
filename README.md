@@ -1,6 +1,11 @@
 # LLM 知識庫
 
-以 LLM 編譯驅動的個人知識管理系統。靈感來自 [Andrej Karpathy 的 LLM 知識庫工作流程](https://x.com/karpathy/status/2039805659525644595)——把原始素材與編譯知識分開，讓 LLM 擔任你的圖書館員。
+以 LLM 編譯為核心的個人知識管理系統。靈感來自 [Andrej Karpathy 的 LLM 知識庫工作流程](https://x.com/karpathy/status/2039805659525644595)及[Andrej Karpathy 的 想法文件](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，把原始素材與編譯知識分開。
+
+
+## 跟 Andrej Kapathy llm-wiki 概念文件的差別
+
+Andrej Kapathy的llm-wiki是三層式的架構(raw->wiki->schema)他的架構是由低到高，由上層架構管理下層資料。我的四層架構是(raw->wiki->brainstorming->artifacts)，偏向工作流式的架構，資訊在不同階段間流動。我同時是知識的生產者跟消費者，所以需要雙向編譯跟與AI討論的階段，但最終都會透過LLM編譯彙整到wiki。
 
 ## 問題所在
 
@@ -40,9 +45,12 @@ artifacts/              ← 你的發表成果：完成的作品
 
 ## 快速開始
 
-1. 執行 `/init-llm` 進行互動式設定——它會問你幾個問題，然後幫你設定好一切
-2. 把第一篇文章丟進 `raw/articles/`
-3. 執行 `/compile`——看著第一份摘要和概念條目出現在 `wiki/` 裡
+1. 下載這個repo
+2. 將要測試的資料放入這個資料夾
+3. 在這個資料夾打開 Claude Code
+4. 執行 `/init-llm` 進行互動式設定——它會問你幾個問題，然後幫你設定好一切
+5. 把第一篇文章丟進 `raw/articles/`
+6. 執行 `/compile`——看著第一份摘要和概念條目出現在 `wiki/` 裡
 
 ## Claude 與 Codex
 
@@ -119,10 +127,6 @@ artifacts/              ← 你的發表成果：完成的作品
 ### 第四步：產出
 
 你根據這些資料寫出一篇文章，存回 `artifacts/`。下次編譯時，這篇文章也會被摘要；但因為它是你的作品，系統會用偏向「你的主張」與「實踐經驗」的格式來整理，而不只是把它當成外部來源做一般摘要。
-
-## 跟 Andrej Kapathy llm-wiki 概念文件的差別
-
-Andrej Kapathy的llm-wiki是三層式的架構(raw->wiki->schema)他的架構是由低到高，由上層架構管理下層資料。我的四層架構是(raw->wiki->brainstorming->artifacts)，偏向工作流式的架構，資訊在不同階段間流動，但最終都會彙整到wiki。我同時是知識的生產者跟消費者，所以需要雙向編譯跟與AI討論的階段。但
 
 
 ## 為什麼我最後變成這樣做
