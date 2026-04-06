@@ -25,6 +25,7 @@ artifacts/      → 發表成果       （你產出了什麼）
 - `podcasts/` — 逐字稿、單集筆記
 - `papers/` — 學術論文、研究報告
 - `notes/` — 你的即時想法、隨手記錄的靈感（`origin: self`）
+  - `social/` — 社群平台匯入（`facebook/` 等，`origin: self`）
 - `projects/` — 與專案相關的原始材料（`origin: self`）
 
 ## 第 2 層：`wiki/` — 百科全書

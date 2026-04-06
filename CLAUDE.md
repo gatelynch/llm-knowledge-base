@@ -54,6 +54,7 @@ vault/
 │   ├── podcasts/           # 播客轉錄（origin: external）
 │   ├── papers/             # 學術論文（origin: external）
 │   ├── notes/              # 隨手靈感筆記（origin: self）
+│   │   └── social/         # 社群平台匯入（facebook/ 等，origin: self）
 │   └── projects/           # 專案相關原始資料（origin: self）
 │
 ├── wiki/                   # 編譯產物，由 LLM 維護，不手動改
@@ -205,6 +206,7 @@ Vault 包含以下類型文件：
 ```
 /init-llm             # 新使用者互動式設定
 /compile              # 編譯 raw/ 與 artifacts/ 成 wiki/
+/convert-to-md        # 將 EPUB / PDF / DOCX / Facebook JSON 轉成 Markdown
 /health-check         # 知識庫健康檢查
 /thinking-partner     # 協作思考夥伴
 /write-partner        # 動筆前的寫作探索

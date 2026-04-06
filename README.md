@@ -26,6 +26,7 @@ raw/                    ← 你的圖書館：未經編輯的原始素材
   ├── podcasts/           podcast 逐字稿
   ├── papers/             學術論文
   ├── notes/              你的快速想法
+  │   └── social/          社群平台匯入（facebook/ 等）
   └── projects/           專案相關素材
 
 wiki/                   ← 你的百科全書：LLM 編譯的知識
@@ -73,6 +74,7 @@ artifacts/              ← 你的發表成果：完成的作品
 |------|------|
 | `/init-llm` | 互動式設定——詢問你的個人資料與偏好、掃描現有檔案、提出整理計畫，並設定 `CLAUDE.md` |
 | `/compile` | 讀取 `raw/` 和 `artifacts/`，在 `wiki/summaries/` 生成摘要，提取概念至 `wiki/concepts/`，更新索引 |
+| `/convert-to-md` | 將 EPUB / PDF / DOCX 檔案或 Facebook JSON 匯出轉成 Obsidian Markdown，存入對應的 `raw/` 子目錄 |
 | `/health-check` | 掃描 `wiki/` 的一致性問題、完整性缺口與連結性問題，輸出優先排序報告至 `brainstorming/health/` |
 | `/thinking-partner` | 協作思考——搜尋 vault 中的相關筆記、提出釐清問題，幫你深度探索複雜問題 |
 | `/write-partner` | 寫作探索——找出 vault 中的相關內容、反例與開放問題，幫你在動筆前把想法挖得更深 |
@@ -156,6 +158,10 @@ NotebookLM 出現之後，我以為「不要整理，全部交給 AI」。但很
 ## 致謝
 
 架構靈感來自 [Andrej Karpathy 的 LLM 知識庫概念](https://x.com/karpathy/status/2039805659525644595)及[Andrej Karpathy 的 想法文件](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)。原始實作與編譯工作流程由 [@gatelynch](https://github.com/gatelynch)與 [@claude](https://github.com/claude) 完成。
+
+## 作者
+
+**gatelynch** — [GitHub](https://github.com/gatelynch) · [Facebook](https://www.facebook.com/gatelynch/) · [Email](mailto:gatelynch@gmail.com)
 
 ## 授權
 
